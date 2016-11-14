@@ -3,4 +3,14 @@ extends layout
 block content
   h1= title
   p Playing #{file}
-  a(href='/stop/' + pid) Stop
+  button(type='button' class='stop') Stop
+  br
+  button(type='button' class='pause') Pause
+
+  script.
+    $('.stop').click(function (e) {
+      window.location.href = '/stop';
+    });
+    $('.pause').click(function (e) {
+      $.ajax('/pause');
+    });

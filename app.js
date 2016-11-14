@@ -6,9 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var config = require('./config');
+var player = require('./player');
 var index = require('./routes/index');
 var play = require('./routes/play');
 var stop = require('./routes/stop');
+var pause = require('./routes/pause');
 
 var app = express();
 
@@ -25,12 +27,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req, res, next) {
   req.config = config;
+  req.player = player;
   next();
 });
 
 app.use('/', index);
 app.use('/play', play);
 app.use('/stop', stop);
+app.use('/pause', pause);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
