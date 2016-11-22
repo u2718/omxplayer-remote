@@ -1,8 +1,15 @@
 extends layout
 
 block content
-  -console.log(list)
-    ul
-      - each item in list
-        li
-          a(href= '/play/' + item.path) !{item.name}
+  div(id='content')
+    div(id='films')
+      h2 Films
+      ul
+        - each item in list
+          li
+            a(href= '/play/' + item.path) !{item.name}
+    div(id='streams')
+      h2 Streams
+      label(for='twitch_url') https://www.twitch.tv/
+      input(type='text' id='twitch_url')
+      button(type='button' id='open_stream' onclick='window.location.href = "/play/twitch.tv%2F" + $("#twitch_url").val()') Open stream
