@@ -8,9 +8,26 @@ block content
   button(type='button' class='pause') Pause
 
   script.
-    $('.stop').click(function (e) {
+    var stop = function () {
       window.location.href = '/stop';
+    };
+
+    $('.stop').click(function (e) {
+      stop();
     });
     $('.pause').click(function (e) {
       $.ajax('/pause');
     });
+
+    setInterval(function () {
+      $.get(
+              '/state',
+              {},
+              function (data) {
+                console.log(data);
+                if (!data.is_running) {
+                  stop();
+                }
+              }
+      )
+    }, 10000);
