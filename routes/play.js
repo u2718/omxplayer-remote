@@ -11,7 +11,7 @@ router.get('/:file', function (req, res, next) {
   else {
     file = req.player.file;
   }
-  res.render('play', { title: 'Play', file: file });
+  res.end();
 });
 
 module.exports = router;

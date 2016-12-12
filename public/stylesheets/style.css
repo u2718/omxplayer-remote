@@ -31,3 +31,9 @@ button {
 #open_stream {
   width: 100px;
 }
+
+#control {
+  padding-top: 20px;
+  clear: left;
+  display: none;
+}

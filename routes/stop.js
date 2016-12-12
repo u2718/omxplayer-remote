@@ -4,7 +4,7 @@ var router = express.Router();
 
 router.get('/', function (req, res, next) {
     req.player.stop();
-    res.redirect('/');
+    res.end();
 });
 
 module.exports = router;

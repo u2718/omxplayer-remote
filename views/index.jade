@@ -7,9 +7,57 @@ block content
       ul
         - each item in list
           li
-            a(href= '/play/' + item.path) !{item.name}
+            a(class='film_a' href= '#' data-path=item.path) !{item.name}
+
     div(id='streams')
       h2 Streams
       label(for='twitch_url') https://www.twitch.tv/
       input(type='text' id='twitch_url')
-      button(type='button' id='open_stream' onclick='window.location.href = "/play/twitch.tv%2F" + $("#twitch_url").val()') Open stream
+      button(type='button' id='open_stream') Open stream
+
+    div(id='control')
+      button(type='button' class='stop') Stop
+      button(type='button' class='pause') Pause
+
+    script.
+      var intervalId = null;
+
+      var play = function (path) {
+        $.ajax('/play/' + path);
+        $('#control').show();
+        intervalId = setInterval(function () {
+          $.get(
+            '/state',
+            {},
+            function (data) {
+              console.log(data);
+              if (!data.is_running) {
+                stop();
+              }
+            }
+          )
+        }, 10000);
+      }
+
+      var stop = function () {
+        $('#control').hide();
+        clearInterval(intervalId);
+        $.ajax('/stop');
+      };
+
+      $('.film_a').click(function () {
+          play($(this).attr('data-path'));
+        }
+      );
+
+      $('#open_stream').click(function () {
+        play('twitch.tv%2F' + $("#twitch_url").val());
+      });
+
+      $('.stop').click(function (e) {
+        stop();
+      });
+
+      $('.pause').click(function (e) {
+        $.ajax('/pause');
+      });
